@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Modular Riser Flooring (MRF) – Key Decision Routes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --brand:#005ea5;
+      --brandDark:#00457a;
+      --bg:#f4f5f7;
+      --card:#fff;
+      --text:#111;
+      --muted:#555;
+      --line:#e6e6e6;
+      --shadow: 0 8px 24px rgba(0,0,0,.12);
+
+      --decisionBorder:#0070c9;
+      --decisionBg:#edf5ff;
+
+      --simpleBorder:#008a00;
+      --simpleBg:#edf9ed;
+
+      --intBorder:#d4351c;
+      --intBg:#fbe9e7;
+    }
+
+    html,body{height:100%}
+    body{
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      margin:0;
+      padding:0;
+      display:flex;
+      min-height:100vh;
+      align-items:center;
+      justify-content:center;
+      color:var(--text);
+    }
+
+    .app{
+      max-width: 980px;
+      width: 100%;
+      margin: 16px;
+      background: var(--card);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 26px 30px 28px;
+    }
+
+    h1{
+      margin: 0 0 8px;
+      font-size: 1.9rem;
+      color: var(--brand);
+      line-height:1.2;
+      font-weight: 800;
+    }
+
+    .subtitle{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    /* Stage banner */
+    .stage-banner{
+      background: var(--brand);
+      color:#fff;
+      border-radius: 14px;
+      padding: 14px 14px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-align:center;
+      margin: 6px 0 18px;
+    }
+
+    /* Legend box (LOCKED COLOURS) */
+    .legend{
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 18px;
+      background:#fff;
+    }
+    .legend h2{
+      font-size: 1.05rem;
+      margin: 0 0 12px;
+      color:#111;
+      font-weight: 800;
+    }
+    .legend-row{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      margin: 10px 0;
+      font-size:0.98rem;
+      color:#111;
+    }
+    .legend-swatch{
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 3px solid transparent;
+      flex: 0 0 auto;
+      margin-top: 2px;
+      background: transparent; /* prevent bleed */
+    }
+    /* force exact colours */
+    .swatch-decision{ border-color: var(--decisionBorder) !important; background: var(--decisionBg) !important; }
+    .swatch-simple{ border-color: var(--simpleBorder) !important; background: var(--simpleBg) !important; }
+    .swatch-int{ border-color: var(--intBorder) !important; background: var(--intBg) !important; }
+
+    /* Badges */
+    .badge-row{display:flex;flex-wrap:wrap;gap:10px;margin: 0 0 14px}
+    .badge{
+      font-size:0.85rem;
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid transparent;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      background:#fff;
+      font-weight: 600;
+    }
+    .badge.decision{ border-color: var(--decisionBorder); color: var(--brand); background: var(--decisionBg); }
+    .badge.simple{ border-color: var(--simpleBorder); color:#066306; background: var(--simpleBg); }
+    .badge.intensive{ border-color: var(--intBorder); color:#7a1307; background: var(--intBg); }
+
+    .step-title{
+      font-weight: 900;
+      font-size: 1.8rem;
+      margin: 0 0 8px;
+      color:#0b0c0c;
+    }
+    .step-text{
+      margin: 0 0 16px;
+      font-size: 1.15rem;
+      color: #222;
+      line-height: 1.35;
+      white-space: pre-line;
+    }
+
+    /* START step side-by-side images */
+    .start-images{
+      display:none;
+      gap:18px;
+      margin: 12px 0 18px;
+      align-items: stretch;
+    }
+    .start-card{
+      flex:1;
+      background:#fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 14px;
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      cursor:pointer;
+      transition: transform .08s ease, box-shadow .12s ease;
+    }
+    .start-card:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0,0,0,.10);
+    }
+    .start-card img{
+      width:100%;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      display:block;
+      background:#fafafa;
+    }
+    .start-card h3{ margin:0; font-size:1.1rem; color:#111; }
+    .start-card p{ margin:0; font-size:0.95rem; color:#555; line-height:1.35; }
+
+    /* Default button options */
+    .options{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin: 10px 0 18px;
+    }
+    .option-btn{
+      border:none;
+      border-radius: 999px;
+      padding: 12px 22px;
+      font-size: 1.05rem;
+      cursor:pointer;
+      background: var(--brand);
+      color:#fff;
+      transition: transform 0.05s ease, box-shadow 0.1s ease, background 0.1s ease;
+      white-space:nowrap;
+      font-weight: 700;
+    }
+    .option-btn:hover{
+      background: var(--brandDark);
+      box-shadow: 0 2px 6px rgba(0,0,0,.2);
+      transform: translateY(-1px);
+    }
+
+    /* Image option cards (BIG like your earlier version) */
+    .option-cards{
+      display:none;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin: 10px 0 18px;
+    }
+    .option-cards.two{
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .option-card{
+      border: 1px solid #e5e5e5;
+      border-radius: 16px;
+      background:#fff;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      min-height: 100%;
+      transition: transform .08s ease, box-shadow .12s ease;
+    }
+    .option-card:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0,0,0,.10);
+    }
+    .option-card .media{
+      width:100%;
+      height: 260px;          /* <- keep cards large */
+      background:#fff;
+      border-bottom: 1px solid #eee;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+    .option-card img{
+      width:100%;
+      height:100%;
+      object-fit: cover;      /* default for photos */
+      display:block;
+      background:#fff;
+    }
+    /* for drawings / diagrams, we want FULL IMAGE (no crop) */
+    .option-card img.contain{
+      object-fit: contain;
+      padding: 10px;
+    }
+
+    .option-card .content{
+      padding: 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+      flex:1;
+    }
+    .option-card .title{
+      font-weight:900;
+      font-size: 1.2rem;
+      margin:0;
+      color:#0b0c0c;
+    }
+    .option-card .desc{
+      margin:0;
+      color:#555;
+      font-size:1rem;
+      line-height:1.35;
+      flex:1;
+    }
+    .option-card .actions{
+      padding: 0 14px 14px;
+    }
+    .option-card .actions .option-btn{
+      width:100%;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 1.05rem;
+    }
+
+    /* Single step image (eg: falsework deck, newbuild steel overhang route) */
+    .step-image-wrapper{
+      display:none;
+      margin: 10px 0 18px;
+      border: 1px solid #e5e5e5;
+      border-radius: 16px;
+      overflow:hidden;
+      background:#fff;
+    }
+    .step-image-wrapper img{
+      width:100%;
+      max-height: 420px;
+      object-fit: contain;     /* <- always show full drawing */
+      display:block;
+      background:#fff;
+      padding: 12px;
+    }
+    .image-caption{
+      margin:0;
+      padding: 12px 14px 14px;
+      border-top: 1px solid #eee;
+      color:#555;
+      font-size: 0.98rem;
+      line-height: 1.35;
+    }
+
+    /* Nav */
+    .nav{
+      display:flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .nav button{
+      border-radius: 999px;
+      border:none;
+      padding: 10px 16px;
+      font-size: 0.98rem;
+      cursor:pointer;
+      background: #f0f0f0;
+      color:#333;
+      font-weight: 700;
+    }
+    .nav button:disabled{ opacity:.4; cursor:default; }
+
+    :focus { outline: none; }
+    :focus-visible { outline: 3px solid rgba(0,94,165,0.18); outline-offset: 3px; }
+
+    @media (max-width: 900px){
+      .option-cards{ grid-template-columns: 1fr; }
+      .option-cards.two{ grid-template-columns: 1fr; }
+      .option-card .media{ height: 240px; }
+    }
+    @media (max-width: 700px){
+      .start-images{ flex-direction:column; }
+      .start-card img{ height:220px; }
+      .app{ padding:18px 16px 20px; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#step" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">
+    Skip to content
+  </a>
+
+  <main class="app" id="step" role="main" aria-labelledby="main-heading">
+    <h1 id="main-heading">Modular Riser Flooring (MRF) Unit – Key Decision Routes</h1>
+    <p class="subtitle">Click through the questions to find the appropriate route for your riser detail.</p>
+
+    <div class="stage-banner" id="stage-banner">
+      Stage 3 design – review drylined wall setting out and compartmentation around riser perimeter
+    </div>
+
+    <section class="legend" aria-label="Legend">
+      <h2>Legend</h2>
+      <div class="legend-row">
+        <span class="legend-swatch swatch-decision" aria-hidden="true"></span>
+        <div><strong>Decision point</strong> – yes/no or multiple-choice route must be selected.</div>
+      </div>
+      <div class="legend-row">
+        <span class="legend-swatch swatch-simple" aria-hidden="true"></span>
+        <div><strong>Simple compliant process</strong> – straightforward route requiring minimal coordination.</div>
+      </div>
+      <div class="legend-row">
+        <span class="legend-swatch swatch-int" aria-hidden="true"></span>
+        <div><strong>Intensive process</strong> – complex / non-standard route needing higher coordination or engineering input.</div>
+      </div>
+    </section>
+
+    <div class="badge-row" id="badge-row"></div>
+
+    <div class="step" aria-live="polite">
+      <div class="step-title" id="step-title" tabindex="-1"></div>
+      <p class="step-text" id="step-text"></p>
+
+      <!-- START step: two big images -->
+      <div class="start-images" id="start-images">
+        <div class="start-card" tabindex="0" role="button" aria-label="Start: New build" data-next="nb-support">
+          <img src="images/new-build.jpg" alt="New build example – red temporary plates on unit prior to pour" loading="lazy" decoding="async" />
+          <h3>New build</h3>
+          <p>Unit installed as part of the primary construction sequence (prior to the slab pour).</p>
+          <button class="option-btn" type="button">New build</button>
+        </div>
+
+        <div class="start-card" tabindex="0" role="button" aria-label="Start: Existing structure" data-next="ex-support">
+          <img src="images/existing-structure.jpg" alt="Existing structure example – cut &amp; carve riser opening" loading="lazy" decoding="async" />
+          <h3>Existing structure</h3>
+          <p>Cut &amp; carve opening within an existing slab (survey-led route with tolerances).</p>
+          <button class="option-btn" type="button">Existing structure</button>
+        </div>
+      </div>
+
+      <!-- OPTION CARDS -->
+      <div class="option-cards" id="option-cards" aria-label="Options with images"></div>
+
+      <!-- SINGLE IMAGE STEP -->
+      <div class="step-image-wrapper" id="step-image-wrapper">
+        <img id="step-image" src="" alt="" loading="lazy" decoding="async" />
+        <p class="image-caption" id="step-caption"></p>
+      </div>
+
+      <!-- DEFAULT BUTTON OPTIONS -->
+      <div class="options" id="options" role="group" aria-label="Step options"></div>
+
+      <div class="nav">
+        <button id="back-btn" type="button" aria-label="Go back">← Back</button>
+        <button id="restart-btn" type="button" aria-label="Restart flow">Restart</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    /**
+     * IMPORTANT:
+     * - Only change requested items.
+     * - NEW: Added a single new step after NEW BUILD -> "Dropped inside a core"
+     *        asking core type (Jump/Slipform vs Traditional).
+     * - Kept all existing routes intact, but inserted this extra question only.
+     */
+
+    const steps = {
+      start: {
+        id: "start",
+        title: "Start point",
+        text: "Is the project a new build or an existing structure?",
+        type: "decision",
+        layout: "start",
+        options: [
+          { label: "New build", next: "nb-support" },
+          { label: "Existing structure", next: "ex-support" }
+        ]
+      },
+
+      /* =======================
+         NEW BUILD BRANCH
+         ======================= */
+
+      "nb-support": {
+        id: "nb-support",
+        title: "New build – support / installation condition",
+        text: "Will the MRF Unit sit on steelwork/MD slab, formwork deck, or be dropped inside a core?",
+        type: "decision",
+        layout: "cards-3",
+        options: [
+          {
+            label: "Steelwork / MD slab",
+            next: "nb-steel-encasement",
+            img: "images/steelwork-md-slab.jpg",
+            alt: "Steelwork / metal deck slab support condition",
+            desc: "Unit installed to steelwork / metal deck slab. Proceed to perimeter steelwork encasement checks."
+          },
+          {
+            label: "Formwork deck",
+            next: "nb-formwork-route",
+            img: "images/formwork-deck.jpg",
+            alt: "Formwork deck support condition",
+            desc: "Unit cast in as part of formwork deck sequence. Requires early coordination with concrete contractor and MEP."
+          },
+          {
+            label: "Dropped inside a core",
+            next: "nb-core-type", /* NEW STEP INSERTED HERE */
+            img: "images/core.jpg",
+            alt: "Dropped inside a core support condition",
+            desc: "Unit dropped inside core / jumpform arrangement. Confirm core construction method before proceeding."
+          }
+        ]
+      },
+
+      "nb-formwork-route": {
+        id: "nb-formwork-route",
+        title: "Formwork deck route",
+        text: "Early coordination with MEP and the concrete contractor regarding installation sequence. MRF Unit is cast in.",
+        type: "simple",
+        layout: "image",
+        image: {
+          src: "images/falsework-deck.png",
+          alt: "Falsework deck installation interface detail",
+          caption: "Reference: falsework deck interface detail."
+        },
+        options: [{ label: "Restart", next: "start" }]
+      },
+
+      /* NEW BUILD: inserted step (only after clicking Dropped inside a core) */
+      "nb-core-type": {
+        id: "nb-core-type",
+        title: "Core construction method",
+        text: "Is the core being formed using jump/slipform construction, or built using a traditional in-situ method?",
+        type: "decision",
+        layout: "buttons",
+        options: [
+          { label: "Jump / slipform core", next: "nb-core-encasement" },
+          { label: "Traditional in-situ core", next: "nb-core-encasement" }
+        ]
+      },
+
+      "nb-steel-encasement": {
+        id: "nb-steel-encasement",
+        title: "Perimeter steelwork encasement",
+        text: "Does the perimeter steelwork require encasement?",
+        type: "decision",
+        layout: "cards-2",
+        options: [
+          {
+            label: "Yes",
+            next: "nb-steel-overhang",
+            img: "images/4-sided-encasement.jpg",
+            alt: "Perimeter steelwork requires 4-sided encasement",
+            desc: "Perimeter steelwork requires encasement.",
+            fit: "contain"
+          },
+          {
+            label: "No",
+            next: "nb-steel-simple",
+            img: "images/No-encasement.jpg",
+            alt: "No encasement to perimeter steelwork",
+            desc: "No encasement to perimeter steelwork.",
+            fit: "contain"
+          }
+        ]
+      },
+
+      "nb-steel-simple": {
+        id: "nb-steel-simple",
+        title: "Simple route – no encasement",
+        text: "No encasement to the perimeter steelwork. Proceed with early coordination with MEP.",
+        type: "simple",
+        options: [{ label: "Restart", next: "start" }]
+      },
+
+      "nb-steel-overhang": {
+        id: "nb-steel-overhang",
+        title: "Concrete overhang check",
+        text: "Is there sufficient overhang of concrete past the toe of the steel to meet ASFP Yellow Book guidance?",
+        type: "decision",
+        layout: "cards-2",
+        options: [
+          {
+            label: "Yes – sufficient overhang",
+            next: "nb-steel-overhang-ok",
+            img: "images/yes-sufficient-overhang.jpg",
+            alt: "Sufficient overhang example",
+            desc: "Sufficient overhang past the toe of steel.",
+            fit: "contain"
+          },
+          {
+            label: "No – insufficient overhang",
+            next: "nb-steel-overhang-not-ok",
+            img: "images/no-insufficient-overhang.jpg",
+            alt: "Insufficient overhang example",
+            desc: "Insufficient overhang past the toe of steel.",
+            fit: "contain"
+          }
+        ]
+      },
+
+      "nb-steel-overhang-ok": {
+        id: "nb-steel-overhang-ok",
+        title: "Route – sufficient overhang",
+        text: "Proceed with early coordination with MEP. MRF Unit can be cast in on the steelwork / MD slab with compliant overhang.",
+        type: "simple",
+        layout: "image",
+        image: {
+          src: "images/newbuild-steel-overhang.png",
+          alt: "New build – steel overhang route detail",
+          caption: "Reference: new build steel overhang detail."
+        },
+        options: [{ label: "Restart", next: "start" }]
+      },
+
+      "nb-steel-overhang-not-ok": {
+        id: "nb-steel-overhang-not-ok",
+        title: "Intensive route – adjust slab edge",
+        text: "There is not sufficient concrete overhang past the toe of the steel. Architect and structural engineer to review and redesign slab edge position to achieve compliant encasement.",
+        type: "intensive",
+        options: [{ label: "Restart", next: "start" }]
+      },
+
+      "nb-core-encasement": {
+        id: "nb-core-encasement",
+        title: "Concrete core – steel encasement",
+        text: "Does any perimeter steel within the core require encasement?",
+        type: "decision",
+        options: [
+          { label: "Yes", next: "nb-core-overhang" },
+          { label: "No", next: "nb-core-simple" }
+        ]
+      },
+
+      "nb-core-simple": {
+        id: "nb-core-simple",
+        title: "Concrete core – simple route",
+        text: "No encasement required. Early coordination with MEP and MRF Unit cast into the concrete core.",
+        type: "simple",
+        options: [{ label: "Restart", next: "start" }]
+      },
+
+      "nb-core-overhang": {
+        id: "nb-core-overhang",
+        title: "Concrete core – overhang check",
+        text: "Is there sufficient overhang of concrete past the toe of the steel to meet ASFP Yellow Book guidance?",
+        type: "decision",
+        options: [
+          { label: "Yes – sufficient overhang", next: "nb-core-overhang-ok" },
+          { label: "No – insufficient overhang", next: "nb-core-overhang-not-ok" }
+        ]
+      },
+
+      "nb-core-overhang-ok": {
+        id: "nb-core-overhang-ok",
+        title: "Concrete core – sufficient overhang",
+        text: "Proceed with early coordination with MEP and cast the MRF Unit into the core with standard encasement.",
+        type: "simple",
+        options: [{ label: "Restart", next: "start" }]
+      },
+
+      "nb-core-overhang-not-ok": {
+        id: "nb-core-overhang-not-ok",
+        title: "Intensive route – core overhang issue",
+        text: "There is not sufficient overhang past the toe of the steel within the core. A specialist review is required to determine a compliant solution.",
+        type: "intensive",
+        options: [{ label: "Restart", next: "start" }]
+      },
+
+      /* =======================
+         EXISTING STRUCTURE BRANCH
+         ======================= */
+
+      "ex-support": {
+        id: "ex-support",
+        title: "Existing structure – support / installation condition",
+        text: "How will the MRF Unit be supported/installed within the existing structure?",
+        type: "decision",
+        layout: "cards-3",
+        options: [
+          {
+            label: "Steelwork / MD slab",
+            next: "ex-steel-encasement",
+            img: "images/steelwork-md-slab.jpg",
+            alt: "Steelwork / metal deck slab support condition",
+            desc: "Unit installed to steelwork / metal deck slab within an existing structure. Proceed to perimeter steelwork encasement checks."
+          },
+          {
+            label: "Formwork deck",
+            next: "ex-access",
+            img: "images/formwork-deck.jpg",
+            alt: "Formwork deck support condition",
+            desc: "If formwork works are required as part of the existing-structure solution, proceed to access/survey checks."
+          },
+          {
+            label: "Dropped inside a core",
+            next: "ex-access",
+            img: "images/core.jpg",
+            alt: "Dropped inside a core support condition",
+            desc: "If working inside an existing core, proceed to access/survey checks."
+          }
+        ]
+      },
+
+      "ex-steel-encasement": {
+        id: "ex-steel-encasement",
+        title: "Perimeter steelwork encasement",
+        text: "Does the perimeter steelwork require encasement?",
+        type: "decision",
+        layout: "cards-2",
+        options: [
+          {
+            label: "Yes",
+            next: "ex-overhang-check",
+            img: "images/4-sided-encasement.jpg",
+            alt: "Perimeter steelwork requires 4-sided encasement",
+            desc: "Perimeter steelwork requires encasement.",
+            fit: "contain"
+          },
+          {
+            label: "No",
+            next: "ex-access",
+            img: "images/No-encasement.jpg",
+            alt: "No encasement to perimeter steelwork",
+            desc: "No encasement to perimeter steelwork.",
+            fit: "contain"
+          }
+        ]
+      },
+
+      "ex-overhang-check": {
+        id: "ex-overhang-check",
+        title: "Concrete overhang check",
+        text: "Is there sufficient overhang of concrete past the toe of the steel to meet ASFP Yellow Book guidance?",
+        type: "decision",
+        layout: "cards-2",
+        options: [
+          {
+            label: "Yes – sufficient overhang",
+            next: "ex-access",
+            img: "images/yes-sufficient-overhang.jpg",
+            alt: "Sufficient overhang example",
+            desc: "Sufficient overhang past the toe of steel.",
+            fit: "contain"
+          },
+          {
+            label: "No – insufficient overhang",
+            next: "ex-option-choice",
+            img: "images/no-insufficient-overhang.jpg",
+            alt: "Insufficient overhang example",
+            desc: "Insufficient overhang past the toe of steel.",
+            fit: "contain"
+          }
+        ]
+      },
+
+      "ex-option-choice": {
+        id: "ex-option-choice",
+        title: "Options (insufficient overhang)",
+        text: "There is not sufficient overhang past the toe of the steel. Choose the appropriate route:",
+        type: "intensive",
+        layout: "cards-2",
+        options: [
+          {
+            label: "Option 1 – breakout concrete",
+            next: "ex-option1",
+            img: "images/option1-breakout-concrete.png",
+            alt: "Option 1 – breakout concrete",
+            desc: "Breakout to achieve compliant bearing/overhang (tested detail).",
+            fit: "contain"
+          },
+          {
+            label: "Option 2 – no breakout (engineering judgement)",
+            next: "ex-option2",
+            img: "images/option2-no-breakout.png",
+            alt: "Option 2 – no breakout (engineering judgement)",
+            desc: "No breakout. Engineering judgement required.",
+            fit: "contain"
+          }
+        ]
+      },
+
+      "ex-option1": {
+        id: "ex-option1",
+        title: "Option 1 – breakout concrete",
+        text: "Break out concrete minimum 50 mm from the toe of the steel (40 mm bearing + 10 mm tolerance). This is a tested detail.",
+        type: "simple",
+        options: [{ label: "Restart", next: "start" }]
+      },
+
+      "ex-option2": {
+        id: "ex-option2",
+        title: "Option 2 – no breakout (engineering judgement)",
+        text: "No concrete breakout. An engineering judgement will be required from the passive fire / structural specialist.",
+        type: "intensive",
+        options: [{ label: "Restart", next: "start" }]
+      },
+
+      "ex-access": {
+        id: "ex-access",
+        title: "Existing structure – access",
+        text: "Is there sufficient access to the riser for surveying?",
+        type: "decision",
+        options: [
+          { label: "Yes – sufficient access", next: "ex-survey" },
+          { label: "No – restricted access", next: "ex-traffic-light" }
+        ]
+      },
+
+      "ex-traffic-light": {
+        id: "ex-traffic-light",
+        title: "Traffic light review process",
+        text: "Limited access. A traffic light review process with multiple visits is likely to be required to build a complete survey.",
+        type: "intensive",
+        options: [{ label: "Continue once survey data available", next: "ex-survey" }]
+      },
+
+      /* UPDATED: ex-survey ONLY (wording + image) */
+      "ex-survey": {
+        id: "ex-survey",
+        title: "Existing structure – survey",
+        text:
+`Provide a minimum 5-point survey of the existing structure (line, level, opening size and support locations).
+Point cloud surveys are not accepted due to tolerance limitations.
+Survey information must be provided as clear, fully dimensioned DWGs suitable for accurate modelling.`,
+        type: "simple",
+        layout: "image",
+        image: {
+          src: "images/risersafe-survey.png",
+          alt: "Existing structure survey model showing steel and concrete survey points",
+          caption: "",
+          maxHeight: 260
+        },
+        options: [{ label: "Next", next: "ex-fire-stopping" }]
+      },
+
+      "ex-fire-stopping": {
+        id: "ex-fire-stopping",
+        title: "Horizontal fire stopping required?",
+        text: "Is horizontal fire stopping required between the MRF Unit and the existing structure?",
+        type: "decision",
+        options: [
+          { label: "Yes", next: "ex-fire-specialist" },
+          { label: "No", next: "ex-no-firestop" }
+        ]
+      },
+
+      "ex-fire-specialist": {
+        id: "ex-fire-specialist",
+        title: "Existing structure – fire specialist detail",
+        text: "Passive fire specialist to provide a fire stopping detail to address gaps between the existing structure and the MRF Unit.",
+        type: "intensive",
+        options: [{ label: "Restart", next: "start" }]
+      },
+
+      "ex-no-firestop": {
+        id: "ex-no-firestop",
+        title: "Existing structure – no horizontal fire stopping",
+        text: "No horizontal fire stopping is required between the MRF Unit and the existing structure. Proceed with installation in line with survey.",
+        type: "simple",
+        options: [{ label: "Restart", next: "start" }]
+      }
+    };
+
+    let currentStepId = "start";
+    let history = [];
+
+    const titleEl = document.getElementById("step-title");
+    const textEl = document.getElementById("step-text");
+    const optionsEl = document.getElementById("options");
+    const optionCardsEl = document.getElementById("option-cards");
+    const backBtn = document.getElementById("back-btn");
+    const restartBtn = document.getElementById("restart-btn");
+    const badgeRowEl = document.getElementById("badge-row");
+    const startImagesEl = document.getElementById("start-images");
+
+    const imageWrapperEl = document.getElementById("step-image-wrapper");
+    const imageEl = document.getElementById("step-image");
+    const captionEl = document.getElementById("step-caption");
+
+    function renderBadges(step){
+      badgeRowEl.innerHTML = "";
+      if (!step?.type) return;
+
+      const badge = document.createElement("div");
+      badge.classList.add("badge");
+
+      if (step.type === "decision") badge.classList.add("decision");
+      if (step.type === "simple") badge.classList.add("simple");
+      if (step.type === "intensive") badge.classList.add("intensive");
+
+      const label = {
+        decision: "Decision point",
+        simple: "Simple compliant process",
+        intensive: "Intensive process"
+      }[step.type] || "";
+
+      badge.textContent = label;
+      badgeRowEl.appendChild(badge);
+    }
+
+    function goTo(nextId){
+      history.push(currentStepId);
+      currentStepId = nextId;
+      renderStep();
+    }
+
+    function makeButton(label, next){
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "option-btn";
+      btn.textContent = label;
+      btn.addEventListener("click", () => goTo(next));
+      return btn;
+    }
+
+    function makeOptionCard(opt){
+      const card = document.createElement("div");
+      card.className = "option-card";
+      card.tabIndex = 0;
+      card.setAttribute("role", "button");
+      card.setAttribute("aria-label", opt.label);
+
+      const media = document.createElement("div");
+      media.className = "media";
+
+      if (opt.img){
+        const img = document.createElement("img");
+        img.src = opt.img;
+        img.alt = opt.alt || opt.label;
+        img.loading = "lazy";
+        img.decoding = "async";
+
+        if (opt.fit === "contain") img.classList.add("contain");
+
+        img.onerror = () => {
+          media.innerHTML = "";
+          media.textContent = "No image yet";
+        };
+
+        media.appendChild(img);
+      } else {
+        media.textContent = "No image yet";
+      }
+
+      const content = document.createElement("div");
+      content.className = "content";
+
+      const t = document.createElement("p");
+      t.className = "title";
+      t.textContent = opt.label;
+
+      const d = document.createElement("p");
+      d.className = "desc";
+      d.textContent = opt.desc || "";
+
+      content.appendChild(t);
+      content.appendChild(d);
+
+      const actions = document.createElement("div");
+      actions.className = "actions";
+
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "option-btn";
+      btn.textContent = opt.label;
+      btn.addEventListener("click", (e) => { e.stopPropagation(); goTo(opt.next); });
+
+      actions.appendChild(btn);
+
+      card.appendChild(media);
+      card.appendChild(content);
+      card.appendChild(actions);
+
+      card.addEventListener("click", () => goTo(opt.next));
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); goTo(opt.next); }
+      });
+
+      return card;
+    }
+
+    function renderStep(){
+      const step = steps[currentStepId];
+      if (!step) return;
+
+      titleEl.textContent = step.title || "";
+      textEl.textContent = step.text || "";
+
+      // Reset visibility
+      startImagesEl.style.display = "none";
+      optionsEl.style.display = "none";
+      optionCardsEl.style.display = "none";
+      imageWrapperEl.style.display = "none";
+
+      optionsEl.innerHTML = "";
+      optionCardsEl.innerHTML = "";
+      optionCardsEl.classList.remove("two");
+
+      imageEl.src = "";
+      imageEl.alt = "";
+      imageEl.style.maxHeight = "420px";   // default (unchanged behaviour)
+      captionEl.textContent = "";
+      captionEl.style.display = "block";
+
+      // Start step
+      if (step.layout === "start"){
+        startImagesEl.style.display = "flex";
+
+        Array.from(startImagesEl.querySelectorAll(".start-card")).forEach(card => {
+          const next = card.dataset.next;
+          const btn = card.querySelector(".option-btn");
+
+          card.onclick = () => goTo(next);
+          card.onkeydown = (e) => {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); goTo(next); }
+          };
+
+          btn.onclick = (e) => { e.stopPropagation(); goTo(next); };
+        });
+      }
+
+      // Single image step
+      else if (step.layout === "image" && step.image?.src){
+        imageWrapperEl.style.display = "block";
+        imageEl.src = step.image.src;
+        imageEl.alt = step.image.alt || "";
+
+        // Allow per-step max height (only used for survey step)
+        if (step.image.maxHeight){
+          imageEl.style.maxHeight = `${step.image.maxHeight}px`;
+        }
+
+        captionEl.textContent = step.image.caption || "";
+        if (!captionEl.textContent.trim()){
+          captionEl.style.display = "none"; // hides caption area entirely
+        }
+
+        optionsEl.style.display = "flex";
+        (step.options || []).forEach(opt => optionsEl.appendChild(makeButton(opt.label, opt.next)));
+      }
+
+      // Cards layouts
+      else if (step.layout === "cards-3" || step.layout === "cards-2"){
+        optionCardsEl.style.display = "grid";
+        if (step.layout === "cards-2") optionCardsEl.classList.add("two");
+        (step.options || []).forEach(opt => optionCardsEl.appendChild(makeOptionCard(opt)));
+      }
+
+      // Buttons layout
+      else {
+        optionsEl.style.display = "flex";
+        (step.options || []).forEach(opt => optionsEl.appendChild(makeButton(opt.label, opt.next)));
+      }
+
+      renderBadges(step);
+
+      backBtn.disabled = history.length === 0;
+      titleEl.focus();
+    }
+
+    backBtn.addEventListener("click", () => {
+      if (!history.length) return;
+      currentStepId = history.pop();
+      renderStep();
+    });
+
+    restartBtn.addEventListener("click", () => {
+      history = [];
+      currentStepId = "start";
+      renderStep();
+    });
+
+    renderStep();
+  </script>
+</body>
+</html>
