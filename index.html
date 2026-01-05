@@ -138,7 +138,6 @@
       font-size: 1.15rem;
       color: #222;
       line-height: 1.35;
-      white-space: pre-line;
     }
 
     /* START step side-by-side images */
@@ -227,7 +226,7 @@
     }
     .option-card .media{
       width:100%;
-      height: 260px;          /* <- keep cards large */
+      height: 260px;          /* keep cards large */
       background:#fff;
       border-bottom: 1px solid #eee;
       display:flex;
@@ -290,12 +289,41 @@
     .step-image-wrapper img{
       width:100%;
       max-height: 420px;
-      object-fit: contain;     /* <- always show full drawing */
+      object-fit: contain;     /* always show full drawing */
       display:block;
       background:#fff;
       padding: 12px;
     }
     .image-caption{
+      margin:0;
+      padding: 12px 14px 14px;
+      border-top: 1px solid #eee;
+      color:#555;
+      font-size: 0.98rem;
+      line-height: 1.35;
+    }
+
+    /* NEW: Two-image detail step (for jump/slipform core details) */
+    .step-image-grid{
+      display:none;
+      margin: 10px 0 18px;
+      gap: 12px;
+    }
+    .step-image-grid .panel{
+      border: 1px solid #e5e5e5;
+      border-radius: 16px;
+      overflow:hidden;
+      background:#fff;
+    }
+    .step-image-grid .panel img{
+      width:100%;
+      max-height: 420px;
+      object-fit: contain;
+      display:block;
+      background:#fff;
+      padding: 12px;
+    }
+    .step-image-grid .panel .cap{
       margin:0;
       padding: 12px 14px 14px;
       border-top: 1px solid #eee;
@@ -401,6 +429,18 @@
         <p class="image-caption" id="step-caption"></p>
       </div>
 
+      <!-- NEW: TWO IMAGE STEP -->
+      <div class="step-image-grid" id="step-image-grid" aria-label="Details">
+        <div class="panel">
+          <img id="detail-image-1" src="" alt="" loading="lazy" decoding="async" />
+          <p class="cap" id="detail-cap-1"></p>
+        </div>
+        <div class="panel">
+          <img id="detail-image-2" src="" alt="" loading="lazy" decoding="async" />
+          <p class="cap" id="detail-cap-2"></p>
+        </div>
+      </div>
+
       <!-- DEFAULT BUTTON OPTIONS -->
       <div class="options" id="options" role="group" aria-label="Step options"></div>
 
@@ -412,14 +452,6 @@
   </main>
 
   <script>
-    /**
-     * IMPORTANT:
-     * - Only change requested items.
-     * - NEW: Added a single new step after NEW BUILD -> "Dropped inside a core"
-     *        asking core type (Jump/Slipform vs Traditional).
-     * - Kept all existing routes intact, but inserted this extra question only.
-     */
-
     const steps = {
       start: {
         id: "start",
@@ -460,7 +492,7 @@
           },
           {
             label: "Dropped inside a core",
-            next: "nb-core-type", /* NEW STEP INSERTED HERE */
+            next: "nb-core-type",
             img: "images/core.jpg",
             alt: "Dropped inside a core support condition",
             desc: "Unit dropped inside core / jumpform arrangement. Confirm core construction method before proceeding."
@@ -482,17 +514,64 @@
         options: [{ label: "Restart", next: "start" }]
       },
 
-      /* NEW BUILD: inserted step (only after clicking Dropped inside a core) */
+      /* Core construction method (now with images) */
       "nb-core-type": {
         id: "nb-core-type",
         title: "Core construction method",
         text: "Is the core being formed using jump/slipform construction, or built using a traditional in-situ method?",
         type: "decision",
-        layout: "buttons",
+        layout: "cards-2",
         options: [
-          { label: "Jump / slipform core", next: "nb-core-encasement" },
-          { label: "Traditional in-situ core", next: "nb-core-encasement" }
+          {
+            label: "Jump / slipform core",
+            next: "nb-core-jump-details",
+            img: "images/jump-formwork.jpg",
+            alt: "Jump / slipform core example",
+            desc: "Slipform/jumpform construction sequence.",
+          },
+          {
+            label: "Traditional in-situ core",
+            next: "nb-core-traditional-details",
+            img: "images/traditionalbuilt.jpg",
+            alt: "Traditional in-situ core example",
+            desc: "Traditional in-situ core construction."
+          }
         ]
+      },
+
+      "nb-core-jump-details": {
+        id: "nb-core-jump-details",
+        title: "Core interface details (jump / slipform)",
+        text: "Select the relevant interface detail(s) below.",
+        type: "simple",
+        layout: "images-2",
+        images: [
+          {
+            src: "images/reinforced-concrete-wall-interface.png",
+            alt: "Reinforced concrete wall interface detail",
+            caption: "2c. Reinforced Concrete Wall Interface"
+          },
+          {
+            src: "images/cast-in-achor-channel-interface.png",
+            alt: "Cast-in anchor channel interface detail",
+            caption: "3c. Cast-In Anchor Channel Interface"
+          }
+        ],
+        options: [{ label: "Restart", next: "start" }]
+      },
+
+      "nb-core-traditional-details": {
+        id: "nb-core-traditional-details",
+        title: "Core interface details (traditional in-situ)",
+        text: "Select the relevant interface detail below.",
+        type: "simple",
+        layout: "image",
+        image: {
+          src: "images/reinforced-concrete-wall-beam-interface.png",
+          alt: "Reinforced concrete wall beam interface detail",
+          caption: ""
+        },
+        options: [{ label: "Restart", next: "start" }]
       },
 
       "nb-steel-encasement": {
@@ -573,52 +652,6 @@
         id: "nb-steel-overhang-not-ok",
         title: "Intensive route – adjust slab edge",
         text: "There is not sufficient concrete overhang past the toe of the steel. Architect and structural engineer to review and redesign slab edge position to achieve compliant encasement.",
-        type: "intensive",
-        options: [{ label: "Restart", next: "start" }]
-      },
-
-      "nb-core-encasement": {
-        id: "nb-core-encasement",
-        title: "Concrete core – steel encasement",
-        text: "Does any perimeter steel within the core require encasement?",
-        type: "decision",
-        options: [
-          { label: "Yes", next: "nb-core-overhang" },
-          { label: "No", next: "nb-core-simple" }
-        ]
-      },
-
-      "nb-core-simple": {
-        id: "nb-core-simple",
-        title: "Concrete core – simple route",
-        text: "No encasement required. Early coordination with MEP and MRF Unit cast into the concrete core.",
-        type: "simple",
-        options: [{ label: "Restart", next: "start" }]
-      },
-
-      "nb-core-overhang": {
-        id: "nb-core-overhang",
-        title: "Concrete core – overhang check",
-        text: "Is there sufficient overhang of concrete past the toe of the steel to meet ASFP Yellow Book guidance?",
-        type: "decision",
-        options: [
-          { label: "Yes – sufficient overhang", next: "nb-core-overhang-ok" },
-          { label: "No – insufficient overhang", next: "nb-core-overhang-not-ok" }
-        ]
-      },
-
-      "nb-core-overhang-ok": {
-        id: "nb-core-overhang-ok",
-        title: "Concrete core – sufficient overhang",
-        text: "Proceed with early coordination with MEP and cast the MRF Unit into the core with standard encasement.",
-        type: "simple",
-        options: [{ label: "Restart", next: "start" }]
-      },
-
-      "nb-core-overhang-not-ok": {
-        id: "nb-core-overhang-not-ok",
-        title: "Intensive route – core overhang issue",
-        text: "There is not sufficient overhang past the toe of the steel within the core. A specialist review is required to determine a compliant solution.",
         type: "intensive",
         options: [{ label: "Restart", next: "start" }]
       },
@@ -771,14 +804,13 @@
         options: [{ label: "Continue once survey data available", next: "ex-survey" }]
       },
 
-      /* UPDATED: ex-survey ONLY (wording + image) */
       "ex-survey": {
         id: "ex-survey",
         title: "Existing structure – survey",
         text:
-`Provide a minimum 5-point survey of the existing structure (line, level, opening size and support locations).
-Point cloud surveys are not accepted due to tolerance limitations.
-Survey information must be provided as clear, fully dimensioned DWGs suitable for accurate modelling.`,
+          "Provide a minimum 5-point survey of the existing structure (line, level, opening size and support locations).\n" +
+          "Point cloud surveys are not accepted due to tolerance limitations.\n" +
+          "Survey information must be provided as clear, fully dimensioned DWGs suitable for accurate modelling.",
         type: "simple",
         layout: "image",
         image: {
@@ -801,11 +833,18 @@ Survey information must be provided as clear, fully dimensioned DWGs suitable fo
         ]
       },
 
+      /* CHANGED: add single image to this slide only */
       "ex-fire-specialist": {
         id: "ex-fire-specialist",
         title: "Existing structure – fire specialist detail",
         text: "Passive fire specialist to provide a fire stopping detail to address gaps between the existing structure and the MRF Unit.",
         type: "intensive",
+        layout: "image",
+        image: {
+          src: "images/2b-reinforced-composite-concrete-slab-extended-rsa-bracket.png",
+          alt: "Reinforced composite concrete slab extended RSA bracket detail",
+          caption: ""
+        },
         options: [{ label: "Restart", next: "start" }]
       },
 
@@ -814,6 +853,12 @@ Survey information must be provided as clear, fully dimensioned DWGs suitable fo
         title: "Existing structure – no horizontal fire stopping",
         text: "No horizontal fire stopping is required between the MRF Unit and the existing structure. Proceed with installation in line with survey.",
         type: "simple",
+        layout: "image",
+        image: {
+          src: "images/2a-reinforced-composite-concrete-slab.png",
+          alt: "Reinforced composite concrete slab detail",
+          caption: ""
+        },
         options: [{ label: "Restart", next: "start" }]
       }
     };
@@ -833,6 +878,12 @@ Survey information must be provided as clear, fully dimensioned DWGs suitable fo
     const imageWrapperEl = document.getElementById("step-image-wrapper");
     const imageEl = document.getElementById("step-image");
     const captionEl = document.getElementById("step-caption");
+
+    const imageGridEl = document.getElementById("step-image-grid");
+    const detailImg1 = document.getElementById("detail-image-1");
+    const detailImg2 = document.getElementById("detail-image-2");
+    const detailCap1 = document.getElementById("detail-cap-1");
+    const detailCap2 = document.getElementById("detail-cap-2");
 
     function renderBadges(step){
       badgeRowEl.innerHTML = "";
@@ -948,16 +999,21 @@ Survey information must be provided as clear, fully dimensioned DWGs suitable fo
       optionsEl.style.display = "none";
       optionCardsEl.style.display = "none";
       imageWrapperEl.style.display = "none";
+      imageGridEl.style.display = "none";
 
       optionsEl.innerHTML = "";
       optionCardsEl.innerHTML = "";
       optionCardsEl.classList.remove("two");
 
+      // reset single image
       imageEl.src = "";
       imageEl.alt = "";
-      imageEl.style.maxHeight = "420px";   // default (unchanged behaviour)
       captionEl.textContent = "";
-      captionEl.style.display = "block";
+      imageEl.style.maxHeight = "420px";
+
+      // reset 2-image
+      detailImg1.src = ""; detailImg1.alt = ""; detailCap1.textContent = "";
+      detailImg2.src = ""; detailImg2.alt = ""; detailCap2.textContent = "";
 
       // Start step
       if (step.layout === "start"){
@@ -976,20 +1032,35 @@ Survey information must be provided as clear, fully dimensioned DWGs suitable fo
         });
       }
 
+      // Two-image detail step
+      else if (step.layout === "images-2" && Array.isArray(step.images) && step.images.length >= 2){
+        imageGridEl.style.display = "grid";
+
+        const a = step.images[0];
+        const b = step.images[1];
+
+        detailImg1.src = a.src;
+        detailImg1.alt = a.alt || "";
+        detailCap1.textContent = a.caption || "";
+
+        detailImg2.src = b.src;
+        detailImg2.alt = b.alt || "";
+        detailCap2.textContent = b.caption || "";
+
+        optionsEl.style.display = "flex";
+        (step.options || []).forEach(opt => optionsEl.appendChild(makeButton(opt.label, opt.next)));
+      }
+
       // Single image step
       else if (step.layout === "image" && step.image?.src){
         imageWrapperEl.style.display = "block";
         imageEl.src = step.image.src;
         imageEl.alt = step.image.alt || "";
-
-        // Allow per-step max height (only used for survey step)
-        if (step.image.maxHeight){
-          imageEl.style.maxHeight = `${step.image.maxHeight}px`;
-        }
-
         captionEl.textContent = step.image.caption || "";
-        if (!captionEl.textContent.trim()){
-          captionEl.style.display = "none"; // hides caption area entirely
+
+        // optional max height per-step (survey slide)
+        if (typeof step.image.maxHeight === "number"){
+          imageEl.style.maxHeight = step.image.maxHeight + "px";
         }
 
         optionsEl.style.display = "flex";
